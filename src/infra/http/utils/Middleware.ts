@@ -24,6 +24,7 @@ export class Middleware {
         if (signatureFailed) {
           return this.endRequest(403, 'Token invalid!.', res)
         }
+        req.user = decoded;
 
         next();
       } else {

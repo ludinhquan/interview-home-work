@@ -1,5 +1,3 @@
-
-
 import { AppError } from "@/core/logic/AppError";
 import { UseCase } from "@/core/domain/UseCase";
 import { Either, Result, left, right } from "@/core/logic/Result";
