@@ -2,16 +2,16 @@ import { AppError } from "@/core/logic/AppError";
 import { UseCase } from "@/core/domain/UseCase";
 import { Either, Result, left, right } from "@/core/logic/Result";
 
+import { UniqueEntityID } from "@/core/domain/UniqueEntityID";
+import { UserId } from "@/modules/user/domain/userId";
+import { PostTitle } from "@/modules/post/domain/postTitle";
+import { PostContent } from "@/modules/post/domain/postContent";
+import { Post, PostProps } from "@/modules/post/domain/post";
 import { IPostRepo } from "@/modules/post/repos/impl/IPostRepo";
 
 import { CreatePostDTO } from "./CreatePostDTO";
 import { CreatePostUseCaseErrors } from "./CreatePostErrors";
 
-import { PostTitle } from "../../domain/postTitle";
-import { PostContent } from "../../domain/postContent";
-import { Post, PostProps } from "../../domain/post";
-import { UserId } from "@/modules/user/domain/userId";
-import { UniqueEntityID } from "@/core/domain/UniqueEntityID";
 
 type Response = Either<
   CreatePostUseCaseErrors.UsernameTakenError |
@@ -56,7 +56,6 @@ export class CreatePostUseCase implements UseCase<CreatePostDTO, Promise<Respons
         return left(postOrError);
       }
       const post = postOrError.getValue();
-
       await this.postRepo.save(post);
       return right(Result.ok<void>())
     } catch (err) {
