@@ -1,10 +1,10 @@
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 
+import { routes } from '@/infra/http/routes'
 import connectDb from '@/infra/database/mongodb'
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(cors(origin));
 app.use(helmet());
 app.use(morgan('combined'));
 
-app.use('/ping', (_, res) => res.end('Pong!'));
+app.use('/', routes);
 
 (async () => {
   await connectDb();
