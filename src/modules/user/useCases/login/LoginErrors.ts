@@ -11,13 +11,5 @@ export namespace LoginUseCaseErrors {
       } as UseCaseError)
     }
   }
-
-  export class PasswordDoesntMatchError extends Result<UseCaseError> {
-    constructor () {
-      super(false, {
-        message: `Password doesnt match error.`
-      } as UseCaseError)
-    }
-  }
-
+  
 }

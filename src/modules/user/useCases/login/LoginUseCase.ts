@@ -17,7 +17,6 @@ import { LoginUseCaseErrors } from "./LoginErrors";
 import { LoginDTO, LoginDTOResponse } from "./LoginDTO";
 
 type Response = Either<
-  LoginUseCaseErrors.PasswordDoesntMatchError |
   LoginUseCaseErrors.UserNameDoesntExistError,
   Result<LoginDTOResponse>
 >
@@ -48,19 +47,20 @@ export class LoginUserUseCase implements UseCase<LoginDTO, Promise<Response>> {
 
       userName = usernameOrError.getValue();
       password = passwordOrError.getValue();
-      
+
       user = await this.userRepo.getUserByUserName(userName);
 
       const userFound = !!user;
       if (!userFound) {
         return left(new LoginUseCaseErrors.UserNameDoesntExistError())
       }
+      
       const passwordValid = await user.password.comparePassword(password.value);
 
       if (!passwordValid) {
-        return left(new LoginUseCaseErrors.PasswordDoesntMatchError())
+        return left(new LoginUseCaseErrors.UserNameDoesntExistError())
       }
-      
+
       const accessToken: JWTToken = this.authService.signJWT({
         username: user.username.value,
         userId: user.userId.id.toString(),
