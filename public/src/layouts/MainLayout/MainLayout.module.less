@@ -1,0 +1,20 @@
+.container {
+  min-height: 100vh;
+  :global(.ant-layout) {
+    background-color: #ffffff;
+  }
+  .content {
+    background-color: #fafafa;
+    padding: 32px 90px;
+    @media (max-width: @mobile) {
+      padding: 20px 0px;
+    }
+  }
+}
+
+.loading {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
