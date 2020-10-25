@@ -4,7 +4,6 @@ import { Result } from "@/core/logic/Result";
 import { Guard } from "@/core/logic/Guard";
 
 import { User } from "@/modules/user/domain/user";
-import { PostTitle } from "@/modules/post/domain/postTitle";
 
 import { CommentText } from "./commentText";
 import { CommentId } from "./commentId";
@@ -14,7 +13,6 @@ interface CommentDetailsProps {
   text: CommentText;
   author: User;
   createdAt: Date | string;
-  postTitle: PostTitle;
 }
 
 export class CommentDetails extends ValueObject<CommentDetailsProps> {
@@ -35,10 +33,6 @@ export class CommentDetails extends ValueObject<CommentDetailsProps> {
     return this.props.createdAt;
   }
 
-  get postTitle (): PostTitle {
-    return this.props.postTitle;
-  }
-
   private constructor (props: CommentDetailsProps) {
     super(props);
   }
@@ -48,8 +42,6 @@ export class CommentDetails extends ValueObject<CommentDetailsProps> {
       { argument: props.commentId, argumentName: 'commentId' },
       { argument: props.text, argumentName: 'text' },
       { argument: props.author, argumentName: 'author' },
-      { argument: props.createdAt, argumentName: 'createdAt' },
-      { argument: props.postTitle, argumentName: 'postTitle' },
     ]);
 
     if (!nullGuard.succeeded) {

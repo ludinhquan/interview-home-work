@@ -14,6 +14,7 @@ export interface CommentProps {
   authorId: UserId;
   text: CommentText;
   postId: PostId;
+  createdAt?: Date | string;
 }
 
 export class Comment extends Entity<CommentProps> {
@@ -33,6 +34,10 @@ export class Comment extends Entity<CommentProps> {
 
   get text (): CommentText {
     return this.props.text;
+  }
+
+  get createdAt (): Date | string {
+    return this.props.createdAt;
   }
 
   private constructor (props: CommentProps, id?: UniqueEntityID) {

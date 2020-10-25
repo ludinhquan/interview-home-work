@@ -15,7 +15,7 @@ export class CommentMap implements Mapper<Comment> {
       post_id: comment.postId.id.toString(),
       author_id: comment.authorId.id.toString(),
       text: comment.text.value,
-      created_at: new Date().toString()
+      created_at: comment.createdAt,
     }
   }
 

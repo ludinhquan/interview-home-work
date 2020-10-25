@@ -1,5 +1,7 @@
+import { JWTClaims } from "@/modules/user/domain/jwt";
+
 export interface ReplyToPostDTO {
-  userId: string;
+  author: JWTClaims;
   postId: string;
   comment: string;
 }

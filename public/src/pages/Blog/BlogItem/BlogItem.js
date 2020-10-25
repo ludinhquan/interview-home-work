@@ -14,7 +14,7 @@ const { Paragraph } = Typography;
 const BlogItem = (props) => {
   const { post } = props;
   const history = useHistory();
-  const getPostDetail = () => history.push(`/post/${post.id}`);
+  const getPostDetail = () => history.push(`/post/${post.postId}`);
 
   return (
     <div className={styles.blogItem}>
@@ -23,7 +23,7 @@ const BlogItem = (props) => {
       </div>
       <Row justify="space-between">
         <Col className={styles.info}>
-          <div>Author: {post.author?.name}</div>
+          <div>Author: {post.author?.username}</div>
           <div>Created at: {post.createdAt.toString()}</div>
         </Col>
         <Col>
@@ -46,11 +46,10 @@ const BlogItem = (props) => {
         <div className={styles.commentCount}></div>
         <Collapse
           bordered={false}
-          expandIcon={() => <span />}
           expandIconPosition="right"
         >
-          <Panel key="1" header={`${post.commentCount} replies`}>
-            <Comments comments={post.comments} />
+          <Panel key="1" header={`${post.numComments} replies`}>
+            <Comments comments={post.comments || []} />
           </Panel>
         </Collapse>
         ,

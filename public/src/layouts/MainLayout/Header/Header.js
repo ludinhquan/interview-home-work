@@ -16,14 +16,6 @@ const HeaderDesktop = () => {
           </Link>
         </Col>
         <Col>
-          <Input
-            size="large"
-            className={styles.search}
-            placeholder="Tìm bài viết"
-            prefix={<SearchOutlined />}
-          />
-        </Col>
-        <Col>
           <Row gutter={24}>
             <Col>
               <Avatar

@@ -41,7 +41,6 @@ export class PostMap implements Mapper<Post> {
       content: postDetails.content.value,
       createdAt: postDetails.createdAt,
       numComments: (postDetails.comments || []).length,
-      comments: (postDetails.comments || []).map(c => CommentMap.toDTO(c)),
     }
   }
 
@@ -51,8 +50,8 @@ export class PostMap implements Mapper<Post> {
       tags: post.tags,
       title: post.title.value,
       content: post.content.value,
+      created_at: post.createdAt,
       author_id: post.authorId.id.toString(),
-      created_at: new Date().toString(),
       comments: (post.comments || []).map(c => c.commentId.id.toString())
     }
   }

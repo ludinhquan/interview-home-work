@@ -1,10 +1,9 @@
 import { UniqueEntityID } from "@/core/domain/UniqueEntityID";
 import { Mapper } from "@/core/infra/Mapper";
-import { Comment } from "@/modules/comment/domain/comment";
-import { CommentMap } from "@/modules/comment/mappers/commentMap";
 import { User } from "@/modules/user/domain/user";
 import { UserName } from "@/modules/user/domain/userName";
 import { UserMap } from "@/modules/user/mappers/userMap";
+
 import { PostContent } from "../domain/postContent";
 import { PostDetails } from "../domain/postDetails";
 import { PostId } from "../domain/postId";
@@ -14,7 +13,6 @@ import { PostDTO } from "../dtos/postDTO";
 export class PostDetailsMap implements Mapper<PostDetails> {
 
   public static toDomain(raw: any): PostDetails {
-    const comments: Comment[] = raw.comments.map(c => CommentMap.toDomain(c))
     const author: User = User.create({
       username: UserName.create({ value: raw.author_id.username }).getValue(),
       name: raw.author_id.name,
@@ -28,8 +26,7 @@ export class PostDetailsMap implements Mapper<PostDetails> {
       content: PostContent.create({ value: raw.content }).getValue(),
       tags: raw.tags,
       createdAt: raw.created_at,
-      comments,
-      numComments: comments.length,
+      numComments: (raw.comments || []).length,
     }).getValue()
   }
 
@@ -41,7 +38,6 @@ export class PostDetailsMap implements Mapper<PostDetails> {
       content: postDetails.content.value,
       createdAt: postDetails.createdAt,
       numComments: postDetails.numComments,
-      comments: (postDetails.comments || []).map(c => CommentMap.toDTO(c)),
     }
   }
 }

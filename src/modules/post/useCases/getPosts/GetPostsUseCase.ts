@@ -3,11 +3,11 @@ import { UseCase } from "@/core/domain/UseCase";
 import { Either, Result, left, right } from "@/core/logic/Result";
 
 import { IPostRepo } from "@/modules/post/repos/impl/IPostRepo";
-import { PostDetails } from "../../domain/postDetails";
+import { GetPostReqDTO } from "./GetPostReqDTO";
 
 type Response = Either<
   AppError.UnexpectedError,
-  Result<PostDetails[]>
+  Result<any>
 >
 
 
@@ -18,10 +18,10 @@ export class GetPostsUseCase implements UseCase<any, Promise<Response>> {
     this.postRepo = postRepo;
   }
 
-  async execute(): Promise<Response> {
+  async execute(params: GetPostReqDTO): Promise<Response> {
     try {
-      const posts = await this.postRepo.getPosts()
-      return right(Result.ok<PostDetails[]>(posts))
+      const posts = await this.postRepo.getPosts(params)
+      return right(Result.ok(posts))
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

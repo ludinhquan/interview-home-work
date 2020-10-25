@@ -15,7 +15,7 @@ interface PostDetailsProps {
   content: PostContent;
   tags?: string[],
   numComments?: number;
-  comments?: Comment[];
+  comments?: Comment[] | string[];
   createdAt?: Date | string;
 }
 
@@ -44,7 +44,7 @@ export class PostDetails extends ValueObject<PostDetailsProps> {
     return this.props.numComments;
   }
 
-  get comments(): Comment[] {
+  get comments(): Comment[] | string[] {
     return this.props.comments;
   }
 

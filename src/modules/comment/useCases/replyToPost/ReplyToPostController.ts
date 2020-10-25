@@ -6,6 +6,7 @@ import { DecodedExpressRequest } from "@/core/infra/DecodedRequest";
 import { ReplyToPostDTO } from "./ReplyToPostDTO";
 import { ReplyToPostErrors } from "./ReplyToPostErrors";
 import { ReplyToPost } from "./ReplyToPost";
+import { CommentDTO } from '../../dtos/commentDTO';
 
 export class ReplyToPostController extends BaseController {
   private useCase: ReplyToPost;
@@ -16,10 +17,8 @@ export class ReplyToPostController extends BaseController {
   }
 
   async executeImpl(req: DecodedExpressRequest, res: express.Response): Promise<any> {
-    const { userId } = req.user;
-
     const dto: ReplyToPostDTO = {
-      userId: userId,
+      author: req.user,
       comment: req.body.comment,
       postId: req.body.postId,
     }
@@ -39,7 +38,7 @@ export class ReplyToPostController extends BaseController {
         }
 
       } else {
-        return this.ok(res);
+        return this.ok<{ comment: CommentDTO }>(res, { comment: result.value.getValue() });
       }
 
     } catch (err) {

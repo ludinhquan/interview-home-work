@@ -50,6 +50,7 @@ export class CreatePostUseCase implements UseCase<CreatePostDTO, Promise<Respons
         content,
         authorId,
         tags: request.tags,
+        createdAt: new Date().toISOString()
       };
 
       const postOrError = Post.create(postProps);

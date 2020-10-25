@@ -6,9 +6,7 @@ import { ReplyToPostController } from "./ReplyToPostController";
 
 const replyToPost = new ReplyToPost(commentRepo, postRepo);
 
-const replyToPostController = new ReplyToPostController(
-  replyToPost
-)
+const replyToPostController = new ReplyToPostController(replyToPost)
 
 export {
   replyToPost,

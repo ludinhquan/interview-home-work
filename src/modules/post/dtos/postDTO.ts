@@ -8,6 +8,6 @@ export interface PostDTO {
     createdAt: string | Date;
     author: UserDTO;
     numComments: number;
-    comments: CommentDTO[]
+    comments?: CommentDTO[]
 }
 
