@@ -8,15 +8,15 @@ interface PostTitleProps {
 }
 
 export class PostTitle extends ValueObject<PostTitleProps> {
-  get value (): string {
+  get value(): string {
     return this.props.value;
   }
 
-  private constructor (props: PostTitleProps) {
+  private constructor(props: PostTitleProps) {
     super(props);
   }
 
-  public static create (props: PostTitleProps): Result<PostTitle> {
+  public static create(props: PostTitleProps): Result<PostTitle> {
     const PostTitleResult = Guard.againstNullOrUndefined(props.value, 'title');
     if (!PostTitleResult.succeeded) {
       return Result.fail<PostTitle>(PostTitleResult.message)

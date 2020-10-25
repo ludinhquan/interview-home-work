@@ -1,6 +1,6 @@
 import { Repo } from "@/core/infra/Repo";
-import { PostDetail } from "../../useCases/getPosts/GetPostsUseCase";
+import { PostDetails } from "../../domain/postDetails";
 
 export interface IPostRepo extends Repo<any> {
-    getPosts(): Promise<PostDetail[]>
+    getPosts(): Promise<PostDetails[]>
 }

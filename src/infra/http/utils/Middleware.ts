@@ -20,7 +20,6 @@ export class Middleware {
       if (token) {
         const decoded = await this.authService.decodeJWT(token?.[1]);
         const signatureFailed = !!decoded === false;
-
         if (signatureFailed) {
           return this.endRequest(403, 'Token invalid!.', res)
         }

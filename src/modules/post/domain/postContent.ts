@@ -8,15 +8,15 @@ interface PostContentProps {
 }
 
 export class PostContent extends ValueObject<PostContentProps> {
-  get value (): string {
+  get value(): string {
     return this.props.value;
   }
 
-  private constructor (props: PostContentProps) {
+  private constructor(props: PostContentProps) {
     super(props);
   }
 
-  public static create (props: PostContentProps): Result<PostContent> {
+  public static create(props: PostContentProps): Result<PostContent> {
     const PostContentResult = Guard.againstNullOrUndefined(props.value, 'content');
     if (!PostContentResult.succeeded) {
       return Result.fail<PostContent>(PostContentResult.message)

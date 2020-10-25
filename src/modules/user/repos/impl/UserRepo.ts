@@ -12,12 +12,12 @@ export class UserRepo implements IUserRepo {
     this.models = models;
   }
 
-  async exists(userName: UserName): Promise<boolean> {
+  async exists(userName: UserName | string): Promise<boolean> {
     const UserModel = this.models.User;
     const baseUser = await UserModel.findOne({
-      where: {
-        user_email: userName.value
-      }
+      username: userName instanceof UserName
+        ? (<UserName>userName).value
+        : userName
     });
     return !!baseUser === true;
   }
@@ -33,18 +33,7 @@ export class UserRepo implements IUserRepo {
     return UserMap.toDomain(baseUser);
   }
 
-  async getUserByUserId(userId: string): Promise<User> {
-    const UserModel = this.models.User;
-    const baseUser = await UserModel.findOne({
-      where: {
-        base_user_id: userId
-      }
-    });
-    if (!!baseUser === false) return null;
-    return UserMap.toDomain(baseUser);
-  }
-
-  async save(user: User): Promise<void> {
+  async save(user: User): Promise<boolean> {
     const UserModel = this.models.User;
     const exists = await this.exists(user.username);
 
@@ -53,6 +42,6 @@ export class UserRepo implements IUserRepo {
       await UserModel.create(rawSequelizeUser);
     }
 
-    return;
+    return exists;
   }
 }

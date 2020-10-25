@@ -1,5 +1,7 @@
+import { JWTClaims } from "@/modules/user/domain/jwt";
+
 export interface CreatePostDTO {
-  ownerId: string,
+  author: JWTClaims,
   title: string;
   content: string;
   tags: Array<string>

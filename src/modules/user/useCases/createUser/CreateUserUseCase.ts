@@ -9,25 +9,27 @@ import { IUserRepo } from "@/modules/user/repos/impl/IUserRepo";
 
 import { CreateUserDTO } from "./CreateUserDTO";
 import { CreateUserUseCaseErrors } from "./CreateUserErrors";
-
+import { AuthService } from "../../services/authService";
+import { JWTToken } from "../../domain/jwt";
 
 type Response = Either<
   CreateUserUseCaseErrors.UsernameTakenError |
-  AppError.UnexpectedError |
-  Result<any>,
-  Result<void>
+  AppError.UnexpectedError,
+  Result<string>
 >
 
 export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Response>> {
   private userRepo: IUserRepo;
+  private authService: AuthService
 
-  constructor(userRepo: IUserRepo) {
+  constructor(userRepo: IUserRepo, authService: AuthService) {
     this.userRepo = userRepo;
+    this.authService = authService;
   }
 
   async execute(request: CreateUserDTO): Promise<Response> {
     const passwordOrError = UserPassword.create({ value: request.password });
-    const usernameOrError = UserName.create({ name: request.username });
+    const usernameOrError = UserName.create({ value: request.username });
 
     const dtoResult = Result.combine([
       passwordOrError, usernameOrError
@@ -49,20 +51,6 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
         ) as Response;
       }
 
-      try {
-        const alreadyCreatedUserByUserName = await this.userRepo
-          .getUserByUserName(username);
-
-        const userNameTaken = !!alreadyCreatedUserByUserName === true;
-
-        if (userNameTaken) {
-          return left(
-            new CreateUserUseCaseErrors.UsernameTakenError(username.value)
-          ) as Response;
-        }
-      } catch (err) { }
-
-
       const userOrError: Result<User> = User.create({
         password, username,
       });
@@ -73,11 +61,15 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
         ) as Response;
       }
 
-      const user: User = userOrError.getValue();
+      const user = userOrError.getValue();
 
-      await this.userRepo.save(user);
+      await this.userRepo.save(userOrError.getValue());
+      const jwtToken: JWTToken = this.authService.signJWT({
+        userId: user.userId.id.toString(),
+        username: user.username.value
+      });
 
-      return right(Result.ok<void>())
+      return right(Result.ok(jwtToken))
 
     } catch (err) {
       return left(new AppError.UnexpectedError(err)) as Response;

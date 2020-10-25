@@ -6,16 +6,19 @@ import { UniqueEntityID } from "@/core/domain/UniqueEntityID";
 
 
 import { UserId } from "@/modules/user/domain/userId";
+import { Comment } from "@/modules/comment/domain/comment";
+
 import { PostId } from "./postId";
 import { PostTitle } from "./postTitle";
 import { PostContent } from "./postContent";
-import { Tag } from "./tag";
 
 export interface PostProps {
-    ownerId: UserId,
+    authorId: UserId,
     title: PostTitle;
-    content: PostContent
-    tags?: Tag[],
+    content: PostContent;
+    tags?: string[];
+    comments?: Comment[];
+    createdAt?: string | Date;
 }
 
 export class Post extends AggregateRoot<PostProps> {
@@ -33,14 +36,21 @@ export class Post extends AggregateRoot<PostProps> {
         return this.props.content;
     }
 
-    get tags(): Tag[] {
+    get tags(): string[] {
         return this.props.tags;
     }
 
-    get ownerId(): UserId {
-        return this.props.ownerId;
+    get authorId(): UserId {
+        return this.props.authorId;
     }
 
+    get comments(): Comment[]{
+        return this.props.comments;
+    }
+    
+    get createdAt(): string | Date {
+        return this.props.createdAt;
+    }
 
     private constructor(props: PostProps, id?: UniqueEntityID) {
         super(props, id)

@@ -6,7 +6,7 @@ const UserSchema: Schema = new Schema({
     password: { type: String },
     name: { type: String },
     dob: { type: String },
-    createdAt: { type: String }
+    created_at: { type: String }
 }, { _id: false });
 
 export default mongoose.model('User', UserSchema);

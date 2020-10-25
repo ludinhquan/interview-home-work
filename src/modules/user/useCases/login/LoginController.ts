@@ -25,9 +25,9 @@ export class LoginController extends BaseController {
         const message = (error.message || error) as string;
         switch (error.constructor) {
           case LoginUseCaseErrors.UserNameDoesntExistError:
-            return this.notFound(message)
+            return this.unauthorized(message)
           default:
-            return this.fail(message);
+            return this.unauthorized(message);
         }
       } else {
         const dto: LoginDTOResponse = result.value.getValue() as LoginDTOResponse;

@@ -16,12 +16,12 @@ export class CreatePostController extends BaseController {
 
   async executeImpl(req: DecodedExpressRequest, res: express.Response): Promise<any> {
     const createPostDto: CreatePostDTO = {
-      ownerId: req.user.userId,
+      author: req.user,
       title: req.body.title,
       content: req.body.content,
       tags: req.body.tags,
     };
-    
+
     try {
       const result = await this.useCase.execute(createPostDto);
 
@@ -30,7 +30,7 @@ export class CreatePostController extends BaseController {
         const message = (error.message || error) as string;
         return this.fail(message);
       } else {
-        return this.ok(res);
+        return this.ok(res, { post: result.value.getValue() });
       }
     } catch (err) {
       return this.fail(err)

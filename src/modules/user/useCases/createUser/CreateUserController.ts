@@ -10,12 +10,12 @@ import { CreateUserUseCaseErrors } from "./CreateUserErrors";
 export class CreateUserController extends BaseController {
   private useCase: CreateUserUseCase;
 
-  constructor (useCase: CreateUserUseCase) {
+  constructor(useCase: CreateUserUseCase) {
     super();
     this.useCase = useCase;
   }
 
-  async executeImpl (req: DecodedExpressRequest, res: express.Response): Promise<any> {
+  async executeImpl(req: DecodedExpressRequest, res: express.Response): Promise<any> {
     const dto: CreateUserDTO = req.body as CreateUserDTO;
 
     try {
@@ -23,15 +23,16 @@ export class CreateUserController extends BaseController {
 
       if (result.isLeft()) {
         const error = result.value;
-  
+
         switch (error.constructor) {
           case CreateUserUseCaseErrors.UsernameTakenError:
-            return this.notFound(error.errorValue().message)
+            return this.conflict(error.errorValue().message)
           default:
             return this.fail(error.errorValue().message);
         }
       } else {
-        return this.ok(res);
+
+        return this.ok<{ token: string }>(res, { token: result.value.getValue() });
       }
 
     } catch (err) {

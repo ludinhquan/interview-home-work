@@ -1,11 +1,10 @@
-
 import * as express from 'express'
 import { BaseController } from "@/core/infra/BaseController";
-import { DecodedExpressRequest } from "@/core/infra/DecodedRequest";
 
+import { GetPostResDTO } from "./GetPostResDTO";
 import { GetPostsUseCase } from "./GetPostsUseCase";
-import { Result } from '@/core/logic/Result';
-import { Post } from '../../domain/post';
+import { PostMap } from '../../mappers/postMap';
+import { PostDetailsMap } from '../../mappers/postDetailsMap';
 
 export class GetPostsController extends BaseController {
   private useCase: GetPostsUseCase;
@@ -23,7 +22,10 @@ export class GetPostsController extends BaseController {
         const message = (error.message || error) as string;
         return this.fail(message);
       } else {
-        return this.ok(res, result.value.getValue());
+        const posts = result.value.getValue();
+        return this.ok<GetPostResDTO>(res, {
+          posts: posts.map(p => PostDetailsMap.toDTO(p))
+        });
       }
     } catch (err) {
       return this.fail(err)

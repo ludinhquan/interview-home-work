@@ -11,9 +11,10 @@ import { UserPassword } from "./userPassword";
 
 interface UserProps {
   username: UserName;
-  password: UserPassword;
-  name?: String,
-  accessToken?: JWTToken,
+  password?: UserPassword;
+  name?: string;
+  accessToken?: JWTToken;
+  dob?: string | Date;
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -27,8 +28,16 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.username;
   }
 
+  get name (): string {
+    return this.props.name;
+  }
+
   get password (): UserPassword {
     return this.props.password;
+  }
+
+  get dob (): string | Date {
+    return this.props.dob;
   }
 
   get accessToken (): string {
@@ -47,7 +56,6 @@ export class User extends AggregateRoot<UserProps> {
   public static create (userProps: UserProps, id?: UniqueEntityID): Result<User> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
       { argument: userProps.username, argumentName: 'username' },
-      { argument: userProps.password, argumentName: 'password' }
     ]);
 
     if (!guardResult.succeeded) {
