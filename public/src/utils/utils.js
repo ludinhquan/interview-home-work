@@ -5,3 +5,5 @@ export const configPagination = ({ total, current }) => ({
   current,
   pageSize: PAGE_SIZE,
 });
+
+export const formatDate = (dateStr) => new Date(dateStr).toLocaleString();

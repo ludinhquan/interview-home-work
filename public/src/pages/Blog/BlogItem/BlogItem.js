@@ -1,14 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Col, Collapse, Row, Typography } from "antd";
 
 import Tag from "@/components/Tag";
+import { formatDate } from "@/utils/utils";
+import { getCommentByPostIdFlow } from "@/store/actions/blog";
 
 import Comments from "../Comments";
 import styles from "./BlogItem.module.less";
-import { useDispatch } from "react-redux";
-import { getCommentByPostIdFlow } from "@/store/actions/blog";
 
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
@@ -36,7 +37,7 @@ const BlogItem = (props) => {
       <Row justify="space-between">
         <Col className={styles.info}>
           <div>Author: {post.author?.username}</div>
-          <div>Created at: {post.createdAt.toString()}</div>
+          <div>Created at: {formatDate(post.createdAt)}</div>
         </Col>
         <Col>
           {(post.tags || []).map((tag) => (

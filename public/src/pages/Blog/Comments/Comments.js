@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Comment } from "antd";
+import { formatDate } from "@/utils/utils";
 
 const Comments = (props) => {
   const { comments } = props;
@@ -10,7 +11,7 @@ const Comments = (props) => {
       author={comment.author.username}
       avatar={comment.avatar}
       content={comment.text}
-      datetime={comment.createdAt}
+      datetime={formatDate(comment.createdAt)}
     />
   ));
 };

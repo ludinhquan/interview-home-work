@@ -24,7 +24,7 @@ const HeaderDesktop = () => {
                 src={"avatar"}
               />
               <span className={styles.linkItem}>
-                Tùng Phan <CaretDownOutlined />
+                Quan Lu <CaretDownOutlined />
               </span>
             </Col>
           </Row>

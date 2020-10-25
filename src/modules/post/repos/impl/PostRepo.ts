@@ -34,7 +34,7 @@ export class PostRepo implements IPostRepo {
     const PostModel = this.models.Post;
     const query: BaseQuery = {}
     if (params.title)
-      query.title = { $regex: params.title };
+      query.title = { $regex: params.title, $options: 'i' };
 
     const posts =
       await PostModel
