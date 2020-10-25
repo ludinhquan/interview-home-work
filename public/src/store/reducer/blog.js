@@ -1,6 +1,6 @@
 import { configPagination } from "@/utils/utils";
 import update from "immutability-helper";
-import { getPostsFlow } from "../actions/blog";
+import { getCommentByPostIdFlow, getPostsFlow } from "../actions/blog";
 
 const initialState = {
   posts: {
@@ -21,6 +21,17 @@ export default function blogReducer(state = initialState, action) {
               total: payload.total,
               current: payload.current,
             }),
+          },
+        },
+      });
+    case getCommentByPostIdFlow.successType:
+      const postId = payload._query.postId;
+      const comments = payload.comments;
+      const idx = state.posts.list.findIndex((item) => item.postId === postId);
+      return update(state, {
+        posts: {
+          list: {
+            [idx]: { $merge: { comments } },
           },
         },
       });

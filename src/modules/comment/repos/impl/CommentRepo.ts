@@ -1,11 +1,15 @@
-import { PostMap } from "@/modules/post/mappers/postMap";
 import { PostId } from "@/modules/post/domain/postId";
 
 import { ICommentRepo } from "./ICommentRepo";
 import { Comment } from "../../domain/comment";
 import { CommentDetails } from "../../domain/commentDetails";
 import { CommentMap } from "../../mappers/commentMap";
+import { CommentId } from "../../domain/commentId";
+import { CommentDetailsMap } from "../../mappers/commentDetailsMap";
 
+type BaseQuery = {
+  [field: string]: number | string | object
+}
 export class CommentRepo implements ICommentRepo {
   private models: any;
 
@@ -13,16 +17,16 @@ export class CommentRepo implements ICommentRepo {
     this.models = models;
   }
 
-  async exists(postId: PostId): Promise<boolean> {
-    const PostModel = this.models.Post;
-    const post = await PostModel.findById(postId);
-    return !!post === true;
+  async exists(commentId: CommentId): Promise<boolean> {
+    const CommentModel = this.models.Comment;
+    const comment = await CommentModel.findById(commentId);
+    return !!comment === true;
   }
 
   async getCommentsByPost(postId: PostId): Promise<CommentDetails[]> {
-    const PostModel = this.models.Post;
-    const posts = await PostModel.find({}).populate('ownerId');
-    return posts.map(post => PostMap.toDomain(post));
+    const CommentModel = this.models.Comment;
+    const comments = await CommentModel.find({ post_id: postId.id.toString() }).populate('author_id');
+    return comments.map(c => CommentDetailsMap.toDomain(c));
   }
 
   async save(comment: Comment): Promise<CommentDetails> {

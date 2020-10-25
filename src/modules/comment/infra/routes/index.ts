@@ -3,15 +3,14 @@
 import express from 'express'
 import { middleware } from '@/infra/http';
 
-// import { getCommentsByPostSlugController } from '../../../useCases/comments/getCommentsByPostSlug';
 import { replyToPostController } from '@/modules/comment/useCases/replyToPost';
+import { getCommentByPostController } from '@/modules/comment/useCases/getCommentByPost'
 
 const commentRouter = express.Router();
 
-// commentRouter.get('/',
-//   middleware.ensureAuthenticated(),
-//   (req, res) => getCommentsByPostSlugController.execute(req, res)
-// )
+commentRouter.get('/',
+  (req, res) => getCommentByPostController.execute(req, res)
+)
 
 commentRouter.post('/',
   middleware.ensureAuthenticated(),

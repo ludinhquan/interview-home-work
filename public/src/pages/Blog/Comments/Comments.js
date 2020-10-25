@@ -6,12 +6,11 @@ const Comments = (props) => {
   const { comments } = props;
   return comments.map((comment) => (
     <Comment
-      key={comment.id}
-      actions={comment.actions}
-      author={comment.author}
+      key={comment.commentId}
+      author={comment.author.username}
       avatar={comment.avatar}
-      content={comment.content}
-      datetime={comment.datetime}
+      content={comment.text}
+      datetime={comment.createdAt}
     />
   ));
 };

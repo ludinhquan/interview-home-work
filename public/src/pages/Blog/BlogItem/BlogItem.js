@@ -1,12 +1,14 @@
 import React from "react";
-import { Col, Collapse, Row, Typography } from "antd";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+import { Col, Collapse, Row, Typography } from "antd";
 
 import Tag from "@/components/Tag";
 
-import styles from "./BlogItem.module.less";
-import { useHistory } from "react-router-dom";
 import Comments from "../Comments";
+import styles from "./BlogItem.module.less";
+import { useDispatch } from "react-redux";
+import { getCommentByPostIdFlow } from "@/store/actions/blog";
 
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
@@ -14,7 +16,17 @@ const { Paragraph } = Typography;
 const BlogItem = (props) => {
   const { post } = props;
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const getPostDetail = () => history.push(`/post/${post.postId}`);
+
+  const onFetchComment = (keys) => {
+    if (keys.length === 0) return;
+    if ((post.comments || []).length > 0) return;
+    dispatch(
+      getCommentByPostIdFlow.request({ query: { postId: post.postId } })
+    );
+  };
 
   return (
     <div className={styles.blogItem}>
@@ -47,6 +59,7 @@ const BlogItem = (props) => {
         <Collapse
           bordered={false}
           expandIconPosition="right"
+          onChange={onFetchComment}
         >
           <Panel key="1" header={`${post.numComments} replies`}>
             <Comments comments={post.comments || []} />

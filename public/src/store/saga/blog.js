@@ -1,9 +1,9 @@
 import { takeLatest } from "redux-saga/effects";
 
-import { getPostsApi } from "@/api/blog";
-import { doActionGenerator } from "@/store/actions";
-import { getPostsFlow } from "@/store/actions/blog";
 import { PAGE_SIZE } from "@/constants/global";
+import { doActionGenerator } from "@/store/actions";
+import { getPostsApi, getCommentByPostIdApi } from "@/api/blog";
+import { getCommentByPostIdFlow, getPostsFlow } from "@/store/actions/blog";
 
 export function* getPosts() {
   yield takeLatest(getPostsFlow.request, ({ payload: { query } = {} }) =>
@@ -13,6 +13,18 @@ export function* getPosts() {
       },
       flow: getPostsFlow,
       apiService: getPostsApi,
+    })
+  );
+}
+
+export function* getCommentByPostId() {
+  yield takeLatest(getCommentByPostIdFlow.request, ({ payload: { query } = {} }) =>
+    doActionGenerator({
+      action: {
+        query
+      },
+      flow: getCommentByPostIdFlow,
+      apiService: getCommentByPostIdApi,
     })
   );
 }

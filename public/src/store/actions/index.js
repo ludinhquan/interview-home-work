@@ -25,7 +25,7 @@ export function* doActionGenerator({ apiService, action, flow }) {
       executeCallback(callback, true, response.error);
       return;
     }
-    yield put(flow.success(data, query, params));
+    yield put(flow.success({ ...data, _query: query, _params: params }));
     executeCallback(callback, false, { data, query, params });
   } catch (error) {
     yield put(flow.failure(error));
