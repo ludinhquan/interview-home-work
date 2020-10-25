@@ -9,7 +9,7 @@ import { commentRouter } from '@/modules/comment/infra/routes';
 const routes = express.Router();
 
 routes.use('/ping', 
-    middleware.ensureAuthenticated(),
+    // middleware.ensureAuthenticated(),
     (_, res) => res.end('Pong!')
 );
 

@@ -14,7 +14,7 @@ export class Middleware {
 
   public ensureAuthenticated() {
     return async (req, res, next) => {
-      const bearerToken = req.headers['authorization']
+      const bearerToken = req.headers['authorization'] || ''
       const token = bearerToken.match(/Bearer\s(.*)/, bearerToken)
       // Confirm that the token was signed with our signature.
       if (token) {

@@ -38,6 +38,7 @@ export class PostDetailsMap implements Mapper<PostDetails> {
       content: postDetails.content.value,
       createdAt: postDetails.createdAt,
       numComments: postDetails.numComments,
+      tags: postDetails.tags,
     }
   }
 }

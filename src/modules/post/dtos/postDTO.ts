@@ -9,5 +9,6 @@ export interface PostDTO {
     author: UserDTO;
     numComments: number;
     comments?: CommentDTO[]
+    tags?: string[]
 }
 
