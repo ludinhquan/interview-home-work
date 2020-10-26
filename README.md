@@ -5,4 +5,4 @@
 ** ps: please start mongodb service before
 ## Deployment
  FE: https://demoapp.ludinhquan.vercel.app/blog
- BE API: https://quan-blog.herokuapp.com
+ BE API: https://quan-blog.herokuapp.com/ping
